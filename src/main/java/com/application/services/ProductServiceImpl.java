@@ -3,6 +3,8 @@ package com.application.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +19,14 @@ public class ProductServiceImpl implements ProductService{
 	private ProductDAO productDAO;
 
 	@Override
+	@Transactional
 	public int save(Products entity) {		
 		productDAO.save(entity);
 		return entity.getId();
 	}
 
 	@Override
+	@Transactional
 	public void delete(Products entity) {
 		productDAO.delete(entity);
 	}

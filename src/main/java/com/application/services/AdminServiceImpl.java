@@ -2,6 +2,8 @@ package com.application.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,13 @@ public class AdminServiceImpl implements AdminService {
 	private AdminDAO adminDAO;
 
 	@Override
+	@Transactional
 	public int save(Admin entity) {
 		return 0;
 	}
 
 	@Override
+	@Transactional
 	public void delete(Admin entity) {
 
 	}

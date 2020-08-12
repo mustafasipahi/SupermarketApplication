@@ -28,7 +28,7 @@ public class AdminControllerImpl implements AdminController{
 
 		while (true) {
 			System.out.println("(Admin Name : " + "admin" + "   " + "Password : " + "123)");
-			System.out.println("Press q to Exit");
+			System.out.println("PRESS q to Exit");
 
 			System.out.println("Enter Admin Name : ");
 			String name = scanner.next();
@@ -44,7 +44,7 @@ public class AdminControllerImpl implements AdminController{
 				if (name.equals(admin.getName()) && admin.getPassword() == password) {
 					while (true) {
 						System.out.println("Admin Operations : \n" + "1.Get All Product\n" + "2.Add Product\n"
-								+ "3.Update Product\n" + "4.Delete Product\n" + "q Exit");
+								+ "3.Edit Product\n" + "4.Delete Product\n" + "q Exit");
 						String operations = scanner.next();
 						if (operations.equals("1")) {
 							printProduct();
@@ -66,7 +66,7 @@ public class AdminControllerImpl implements AdminController{
 
 						} else if (operations.equals("3")) {
 							printProduct();
-							System.out.println("Select the Product You Want to Edit : ");
+							System.out.println("Select Product to Edit : ");
 							int editId = scanner.nextInt();
 							Products selectedProducts = productService.findById(editId);
 							System.out.println("New Product Name : ");
@@ -80,11 +80,11 @@ public class AdminControllerImpl implements AdminController{
 							selectedProducts.setPrice(productPrice);
 							selectedProducts.setQuantity(productQuantity);
 							productService.save(selectedProducts);
-							System.out.println("Product Has Been Successfully Updated");
+							System.out.println("Product Successfully Edited");
 							Thread.sleep(1000);
 						} else if (operations.equals("4")) {
 							printProduct();
-							System.out.println("Select the Product You Want to Delete : ");
+							System.out.println("Select Product to Delete : ");
 							int deleteId = scanner.nextInt();
 							Products deleteProduct = productService.findById(deleteId);
 							productService.delete(deleteProduct);
@@ -95,7 +95,7 @@ public class AdminControllerImpl implements AdminController{
 							Thread.sleep(2000);
 							return;
 						} else {
-							System.out.println("You Pressed an Incorrect Key. Please try again.");
+							System.out.println("You Entered Incorrect Key. Please Try Again.");
 						}
 
 					}
@@ -111,7 +111,7 @@ public class AdminControllerImpl implements AdminController{
 
 	public void printProduct() {
 		for (Products products : getProducts()) {
-			System.out.println("\t" + products.getName() + "\t" + products.getPrice() + Currency.TL + "\t"
+			System.out.println("\t" + products.getName() + "\t" + products.getPrice() + Currency.EURO + "\t"
 					+ products.getQuantity() + " Qty");
 		}
 	}

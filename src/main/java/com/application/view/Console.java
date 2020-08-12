@@ -24,8 +24,8 @@ public class Console implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("*************WELCOME TO SUPERMARKET*************");
 		while (true) {
-			System.out.println("Press 1 to Enter Admin");
-			System.out.println("Press 2 to Login");
+			System.out.println("PRESS 1 for Admin Login");
+			System.out.println("PRESS 2 for User Login");
 
 			int value = scanner.nextInt();
 
