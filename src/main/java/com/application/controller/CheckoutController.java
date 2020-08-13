@@ -18,29 +18,30 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.application.dto.ProductDTO;
 import com.application.model.CartItem;
+import com.application.model.money.Currency;
 
 public class CheckoutController {
 	
 	public static void createExcelFile(ArrayList<ProductDTO> list,int totalPrice,String userName,int haveMoney) {
-		// Excel Calisma Kitabini Olustur
+		
+		//Create Excell Work Book
 		XSSFWorkbook workbook = new XSSFWorkbook();
 
-		// Excel Sayfasi Olustur
+		//Create an Excell Sheet 
 		XSSFSheet sheet = workbook.createSheet("Kişi Listesi");
 
-		// Basliklar icin olusturulacak bicim yapisi icin font nesnesi hazirla
+		//Set Font of Titles
 		XSSFFont headerFont = workbook.createFont();
 
-		// Yazi rengini belirle
+		//Set Font Color
 		headerFont.setColor(IndexedColors.BLUE.getIndex());
 
-		// Basliklar icin bicim nesnesini olustur
+		//CellStyle of Titles
 		XSSFCellStyle headerStyle = workbook.createCellStyle();
 
-		// Hazirladigin Font nesnesini bicime ekle
 		headerStyle.setFont(headerFont);
 
-		// Basliklari Hazirla
+		//Prepare Header
 		Row headerRow = sheet.createRow(0);
 		Cell hname = headerRow.createCell(0);
 		hname.setCellValue("Product Name");
@@ -51,38 +52,39 @@ public class CheckoutController {
 		Cell hage = headerRow.createCell(2);
 		hage.setCellValue("Price");
 
-		// Olusturulan baslik bicimini hucrelere ekle
+		//Add Header Style to Cells
 		hname.setCellStyle(headerStyle);
 		hlastName.setCellStyle(headerStyle);
 		hage.setCellStyle(headerStyle);
-
-		// Listeyi Yaz
+		
 		for (int i = 0; i < list.size(); i++) {
 
-			// Olusturdugumuz sayfa icerisinde yeni bir satir olustur
-			// i+1 yazmamizin nedeni 0. satir yani ilk satira basliklari yazdigimizdan 0 dan
-			// baslatmadik
+			//Create a New Line  on Excel Sheet
 			Row row = sheet.createRow(i + 1);
 
-			// Ilgili satir icin yeni bir hucre olustur
+			//Create a New Cell for the Releated Line
 			Cell name = row.createCell(0);
 			name.setCellValue((list.get(i)).getProductName());
 
+			//Create a New Cell for the Releated Line
 			Cell lastName = row.createCell(1);
 			lastName.setCellValue(list.get(i).getProductQuantity());
 
+			//Create a New Cell for the Releated Line
 			Cell age = row.createCell(2);
 			age.setCellValue(list.get(i).getProductPrice());
 
 		}
 		
+		//Create a New Line on Excel Sheet For Total Price
 		Row row1 = sheet.createRow(list.size() + 2);
 		Cell name1 = row1.createCell(0);
-		name1.setCellValue("Total Price : \t" + totalPrice);
+		name1.setCellValue("Total Price : \t" + totalPrice + " " + Currency.EURO);
 		
-		Row row = sheet.createRow(list.size() + 2);
+		//Create a New Line on Excel Sheet For Remaining Balance
+		Row row = sheet.createRow(list.size() + 4);
 		Cell name = row.createCell(0);
-		name.setCellValue("Remaining Balance : \t" + haveMoney);
+		name.setCellValue("Remaining Balance : \t" + haveMoney + " " + Currency.EURO);
 		
 		Calendar calendar = Calendar.getInstance();
 		String date = String.format("%s/%s/%s", calendar.get(Calendar.DATE), 
@@ -92,21 +94,24 @@ public class CheckoutController {
 												calendar.get(Calendar.MINUTE), 
 												calendar.get(Calendar.SECOND));
 		
-		Row row2 = sheet.createRow(list.size() + 4);
+		//Create a New Line on Excel Sheet For Date
+		Row row2 = sheet.createRow(list.size() + 6);
 		Cell name2 = row2.createCell(0);
 		name2.setCellValue("Date of Purchase : \t" + date + "    " + time);
 		
-		Row row3 = sheet.createRow(list.size() + 6);
+		//Create a New Line on Excel Sheet For Note
+		Row row3 = sheet.createRow(list.size() + 8);
 		Cell name3 = row3.createCell(0);
 		name3.setCellValue("******Thank You For Choosing Us " + userName + "******");
 		
-		// Olusturulan Excel Nesnesini Dosyaya Yaz
+		//Print List on Excel Sheet
 		write(workbook);
 	}
 
 	public static void write(XSSFWorkbook workbook) {
 		try {
-			FileOutputStream out = new FileOutputStream(new File("./YourProduct.xlsx"));
+			//Save Excell File Location
+			FileOutputStream out = new FileOutputStream(new File("YourProduct.xlsx"));
 			workbook.write(out);
 			out.close();
 		} catch (FileNotFoundException e) {
@@ -125,7 +130,8 @@ public class CheckoutController {
 	}
 
 	public static ArrayList<ProductDTO> getProductDTOs(List<CartItem> items) {
-
+		
+		//Convert Cart items to ProdoctDTO
 		ArrayList<ProductDTO> products = new ArrayList<ProductDTO>();
 		for (CartItem cartItem : items) {
 			ProductDTO productDTO = new ProductDTO();
